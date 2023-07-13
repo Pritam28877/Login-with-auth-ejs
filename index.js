@@ -4,6 +4,10 @@ const app = express();
 //this is to read the body of the given page
 app.use(express.urlencoded({ extended: false }));
 
+
+// middleware
+app.use(express.static('public'));
+
 //add the ejs to render the html in dynamice order 
 app.set('view engine', 'ejs');
 
