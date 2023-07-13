@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 
+const db = require('./config/mongoose')
 //this is to read the body of the given page
 app.use(express.urlencoded({ extended: false }));
 
@@ -12,7 +13,7 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 //all the routes 
-app.use('/auth')
+
 
 app.get('/', (req, res) => {
     res.render("index")
