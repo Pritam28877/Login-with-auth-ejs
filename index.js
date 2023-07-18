@@ -7,6 +7,7 @@ app.use(express.urlencoded({ extended: false }));
 
 
 // middleware
+app.use(express.json());
 app.use(express.static('public'));
 
 //add the ejs to render the html in dynamice order 
