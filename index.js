@@ -16,21 +16,18 @@ app.set('view engine', 'ejs');
 
 
 //all the routes 
-
-
 app.get('/', (req, res) => {
     res.render("home")
 })
 
-//the route for the 
 app.get('/smoothies', (req, res) => {
     res.render("smoothies")
 })
 
 app.use(authRoute)
+
+
 // lisening from the port 5000
-
-
 
 app.listen(5000, (e) => {
     if (e) {
