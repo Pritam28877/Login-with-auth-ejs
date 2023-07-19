@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const authRoute = require('./routes/auth')
+const cookieParser = require('cookie-parser')
 const db = require('./config/mongoose')
 //this is to read the body of the given page
 app.use(express.urlencoded({ extended: false }));
@@ -9,6 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 // middleware
 app.use(express.json());
 app.use(express.static('public'));
+app.use(cookieParser())
 
 //add the ejs to render the html in dynamice order 
 app.set('view engine', 'ejs');
@@ -25,6 +27,15 @@ app.get('/smoothies', (req, res) => {
 })
 
 app.use(authRoute)
+
+//cookies 
+
+app.get('/set-cookies', (req, res) => {
+
+    res.cookie('newUser', false);
+    res.cookie('isEmployee', true, { maxage: 1000 * 60 * 60 * 24 , httpOnly:true })
+    res.send('hi')
+})
 
 
 // lisening from the port 5000
