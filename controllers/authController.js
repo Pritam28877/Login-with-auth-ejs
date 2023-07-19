@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const jwt = require('jsonwebtoken');
 
 //handel errors 
 const handleErrors = (err) => {
@@ -6,18 +7,23 @@ const handleErrors = (err) => {
   let errors = { email: '', password: '' }
   if (err.code === 11000) {
     errors.email = 'that email is already registered';
-    // console.log(errors.email);
+    console.log(errors.email);
     return errors;
   }
-  if(err.message.includes('user validation failed')){
-    (Object.values(err.errors)).forEach(properties=>{
+  if (err.message.includes('user validation failed')) {
+    (Object.values(err.errors)).forEach(properties => {
       errors[properties.path] = properties.message;
     });
   }
-    return errors ;
+  return errors;
 }
-
-
+const maxage = 3 * 24 * 60 * 60;
+//jwt tokern 
+const createToke = (id) => {
+  return jwt.sign({ id }, 'dragon12345', {
+    expiresIn: maxage
+  });
+}
 // controller actions
 module.exports.signup_get = (req, res) => {
   res.render('signup');
@@ -32,11 +38,14 @@ module.exports.signup_post = async (req, res) => {
 
   try {
     const user = await User.create({ email, password });
-    res.status(201).json(user);
+    const token = createToke(user._id);
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxage * 1000 })
+    res.status(201).json({ user: user._id });
   }
   catch (err) {
-    const error = handleErrors(err);
-    res.status(400).json({error});
+    const errors = handleErrors(err);
+    console.log(errors);
+    res.status(400).json({ errors });
   }
 }
 
