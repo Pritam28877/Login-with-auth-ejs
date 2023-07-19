@@ -28,14 +28,6 @@ app.get('/smoothies', (req, res) => {
 
 app.use(authRoute)
 
-//cookies 
-
-app.get('/set-cookies', (req, res) => {
-
-    res.cookie('newUser', false);
-    res.cookie('isEmployee', true, { maxage: 1000 * 60 * 60 * 24 , httpOnly:true })
-    res.send('hi')
-})
 
 
 // lisening from the port 5000
