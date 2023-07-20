@@ -1,23 +1,22 @@
 const jwt = require('jsonwebtoken');
 
 const requireAuth = (req, res, next) => {
-    const token = res.cookies.jwt;
+    const token = req.cookies.jwt;
 
-    //check json web token exists & is verified 
+    // check json web token exists & is verified
     if (token) {
-        jwt.verify(token, 'dragon12345', (err, decodeToken) => {
+        jwt.verify(token, 'dragon12345', (err, decodedToken) => {
             if (err) {
                 console.log(err.message);
                 res.redirect('/login');
-
             } else {
-                console.log(decodeToken);
+                // console.log(decodedToken);
                 next();
             }
-        })
+        });
     } else {
         res.redirect('/login');
     }
-}
+};
 
-module.exports = {requireAuth}
+module.exports = { requireAuth };

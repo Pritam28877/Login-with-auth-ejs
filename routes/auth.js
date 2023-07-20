@@ -12,5 +12,8 @@ route.get('/login', authController.login_get)
 //route post for the login 
 route.post('/login', authController.login_post)
 
+//route get  for the login 
+route.get('/logout', authController.logout_get)
+
 
 module.exports = route;
