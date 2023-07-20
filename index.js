@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 const authRoute = require('./routes/auth')
 const cookieParser = require('cookie-parser')
-const db = require('./config/mongoose')
+const db = require('./config/mongoose');
+const { requireAuth } = require('./middleware/authMiddleware');
 //this is to read the body of the given page
 app.use(express.urlencoded({ extended: false }));
 
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {
     res.render("home")
 })
 
-app.get('/smoothies', (req, res) => {
+app.get('/smoothies', requireAuth, (req, res) => {
     res.render("smoothies")
 })
 
