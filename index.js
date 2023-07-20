@@ -3,7 +3,7 @@ const app = express();
 const authRoute = require('./routes/auth')
 const cookieParser = require('cookie-parser')
 const db = require('./config/mongoose');
-const { requireAuth } = require('./middleware/authMiddleware');
+const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 //this is to read the body of the given page
 app.use(express.urlencoded({ extended: false }));
 
@@ -19,15 +19,12 @@ app.set('view engine', 'ejs');
 
 
 //all the routes 
-app.get('/', (req, res) => {
-    res.render("home")
-})
+app.get('*', checkUser);
+app.get('/', (req, res) => { res.render("home") });
 
-app.get('/smoothies', requireAuth, (req, res) => {
-    res.render("smoothies")
-})
+app.get('/smoothies', requireAuth, (req, res) => { res.render("smoothies") });
 
-app.use(authRoute)
+app.use(authRoute);
 
 
 
